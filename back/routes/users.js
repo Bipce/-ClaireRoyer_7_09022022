@@ -3,11 +3,6 @@ const router = express.Router();
 const usersCtrl = require("../controllers/users");
 
 router.post("/signup", usersCtrl.signup);
+router.post("/login", usersCtrl.login);
 
 module.exports = router;
-
-// router.post("/", async (req, res) => {
-//   const { id, email, username, password } = req.body;
-
-//   const user = await User.findOne(email);
-// });
