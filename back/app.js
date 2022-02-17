@@ -4,11 +4,13 @@ require("reflect-metadata");
 
 const { createConnection } = require("typeorm");
 const express = require("express");
-const User = require("./models/user");
+const User = require("./models/users");
+const Topic = require("./models/topics");
 const error = require("./middlewares/error");
 const path = require("path");
 
 const usersRouter = require("./routes/users");
+const topicsRouter = require("./routes/topics");
 
 const app = express();
 
@@ -24,7 +26,7 @@ app.use(express.json());
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       synchronize: true,
-      entities: [User],
+      entities: [User, Topic],
     });
     if (createConnection) console.log("Connect to database");
 
@@ -37,5 +39,6 @@ app.use(express.json());
 })();
 
 app.use("/api", usersRouter);
+app.use("/api/topic", topicsRouter);
 app.use(error);
 app.use("/images", express.static(path.join(__dirname, "images")));
