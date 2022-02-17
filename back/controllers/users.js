@@ -33,7 +33,6 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await userRepository.findOne({ email });
-  console.log(user);
   if (!user) throw new HttpError("User not found !", 404);
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) throw new HttpError("Invalid password.", 401);

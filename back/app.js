@@ -6,6 +6,7 @@ const { createConnection } = require("typeorm");
 const express = require("express");
 const User = require("./models/user");
 const error = require("./middlewares/error");
+const path = require("path");
 
 const usersRouter = require("./routes/users");
 
@@ -37,3 +38,4 @@ app.use(express.json());
 
 app.use("/api", usersRouter);
 app.use(error);
+app.use("/images", express.static(path.join(__dirname, "images")));
