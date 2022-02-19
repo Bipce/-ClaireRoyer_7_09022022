@@ -21,12 +21,11 @@ module.exports = new EntitySchema({
       type: "varchar",
     },
   },
-  // relations: {
-  //   topic: {
-  //     target: "Topic",
-  //     type: "one-to-many",
-  // joinTable: true,
-  // cascade: true,
-  // },
-  // },
+  relations: {
+    topics: {
+      target: "Topic",
+      type: "one-to-many",
+      inverseSide: "user",
+    },
+  },
 });

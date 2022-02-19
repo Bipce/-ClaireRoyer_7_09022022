@@ -13,15 +13,22 @@ module.exports = new EntitySchema({
     title: {
       type: "varchar",
     },
-    datetime: { type: "varchar" },
-    message: { type: "varchar" },
+    datetime: {
+      type: "varchar",
+    },
+    content: {
+      type: "varchar",
+    },
   },
   relations: {
     user: {
       target: "User",
       type: "many-to-one",
-      // joinTable: true,
-      // cascade: true,
+    },
+    messages: {
+      target: "Message",
+      type: "one-to-many",
+      inverseSide: "topic",
     },
   },
 });
