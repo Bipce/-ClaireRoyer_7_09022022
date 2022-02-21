@@ -1,4 +1,4 @@
-const { getRepository } = require("typeorm");
+const { getManager } = require("typeorm");
 const HttpError = require("../utils/http-error");
 
 const Message = require("../models/messages");
@@ -8,14 +8,12 @@ const User = require("../models/users");
 exports.createMessage = async (req, res) => {
   const { content, topicId } = req.body;
 
-  const userRepository = getRepository(User);
-  const topicRepository = getRepository(Topic);
-  const messageRepository = getRepository(Message);
+  const entityManager = getManager();
 
-  const user = await userRepository.findOne(req.userId);
-  const topic = await topicRepository.findOne(topicId);
+  const user = await entityManager.findOne(User, req.userId);
+  const topic = await entityManager.findOne(Topic, topicId);
 
-  if (!topic) throw new HttpError("Error", 404);
+  if (!topic) throw new HttpError("Topic not found !", 404);
 
   const message = {
     datetime: Date.now(),
@@ -25,7 +23,7 @@ exports.createMessage = async (req, res) => {
   };
 
   try {
-    await messageRepository.save(message);
+    await entityManager.save(Message, message);
     res.status(201).json({ message: "Message created !" });
   } catch (error) {
     throw new HttpError(error, 400);

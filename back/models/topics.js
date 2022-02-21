@@ -14,10 +14,11 @@ module.exports = new EntitySchema({
       type: "varchar",
     },
     created: {
-      type: "timestamp",
+      type: "varchar",
     },
     updated: {
-      type: "timestamp",
+      type: "varchar",
+      default: null,
     },
     content: {
       type: "varchar",

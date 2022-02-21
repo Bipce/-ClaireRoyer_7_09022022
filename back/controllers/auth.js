@@ -1,4 +1,4 @@
-const { getRepository } = require("typeorm");
+const { getManager } = require("typeorm");
 const HttpError = require("../utils/http-error");
 const jwt = require("jsonwebtoken");
 
@@ -6,7 +6,7 @@ const User = require("../models/users");
 const bcrypt = require("bcrypt");
 
 exports.signup = async (req, res) => {
-  const userRepository = getRepository(User);
+  const entityManager = getManager();
 
   const { email, username, password } = req.body;
 
@@ -19,7 +19,7 @@ exports.signup = async (req, res) => {
   };
 
   try {
-    await userRepository.save(user);
+    await entityManager.save(User, user);
     res.status(201).json({ message: "User created !" });
   } catch (error) {
     throw new HttpError(error, 400);
@@ -27,11 +27,11 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const userRepository = getRepository(User);
+  const entityManager = getManager();
 
   const { email, password } = req.body;
 
-  const user = await userRepository.findOne({ email });
+  const user = await entityManager.findOne(User, { email });
   if (!user) throw new HttpError("User not found !", 404);
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) throw new HttpError("Invalid password.", 401);
