@@ -15,6 +15,8 @@ exports.createMessage = async (req, res) => {
   const user = await userRepository.findOne(req.userId);
   const topic = await topicRepository.findOne(topicId);
 
+  if (!topic) throw new HttpError("Error", 404);
+
   const message = {
     datetime: Date.now(),
     content,

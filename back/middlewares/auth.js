@@ -8,8 +8,8 @@ module.exports = (req, res, next) => {
 
   try {
     const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET); // Decode our token, if not valid: generate error.
-    const userId = decodedToken.userId; // Extraction of userId of token.
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
     req.userId = userId;
     next();
   } catch (error) {

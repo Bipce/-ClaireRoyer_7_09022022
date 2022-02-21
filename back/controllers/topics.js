@@ -43,3 +43,22 @@ exports.getTopics = async (req, res) => {
   const topics = await topicRepository.find({ relations: ["messages"] });
   await res.status(200).json(topics);
 };
+
+exports.modifyTopic = async (req, res) => {
+  const topicRepository = getRepository(Topic);
+
+  const topic = await topicRepository.findOne(req.params.id, {
+    relations: ["user"],
+  });
+  if (!topic) throw new HttpError("Not found !", 404);
+
+  if (req.userId !== topic.user.id)
+    throw new HttpError("You are not allowed !", 403);
+
+  const updatedTopic = await topicRepository.update(
+    { id: topic.id },
+    { ...req.body }
+  );
+  res.status(200).json(updatedTopic);
+  throw new HttpError(error, 400);
+};
