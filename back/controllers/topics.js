@@ -8,20 +8,20 @@ const Message = require("../models/messages");
 exports.createTopic = async (req, res) => {
   const { title, content } = req.body;
 
-  const entityManager = getManager();
+  console.log(req.user);
 
-  const user = await entityManager.findOne(User, req.userId);
+  const entityManager = getManager();
 
   const topic = {
     title,
     created: Date.now(),
-    user,
+    user: req.user,
     content,
   };
 
   try {
     await entityManager.save(Topic, topic);
-    res.status(201).json({ message: "Topic created !" });
+    res.status(201).json({ id: topic.id });
   } catch (error) {
     throw new HttpError(error, 400);
   }
@@ -39,7 +39,7 @@ exports.modifyTopic = async (req, res) => {
 
   if (!topic) throw new HttpError("Not found !", 404);
 
-  if (req.userId !== topic.user.id)
+  if (!topic.user || req.user.id !== topic.user.id)
     throw new HttpError("You are not allowed !", 403);
 
   try {
@@ -56,13 +56,14 @@ exports.modifyTopic = async (req, res) => {
 
 exports.deleteTopic = async (req, res) => {
   const entityManager = getManager();
+
   const topic = await entityManager.findOne(Topic, req.params.id, {
     relations: ["user", "messages"],
   });
 
   if (!topic) throw new HttpError("Not found !", 404);
 
-  if (req.userId !== topic.user.id)
+  if (req.user.id !== topic.user.id)
     throw new HttpError("You are not allowed !", 403);
 
   for (const message of topic.messages) {
@@ -83,9 +84,9 @@ exports.getTopic = async (req, res) => {
 };
 
 exports.getTopics = async (req, res) => {
-  const topicRepository = getRepository(Topic);
+  const entityManager = getManager();
 
-  const topics = await topicRepository.find({
+  const topics = await entityManager.find(Topic, {
     relations: ["user", "messages"],
   });
   await res.status(200).json(topics);

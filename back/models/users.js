@@ -27,5 +27,10 @@ module.exports = new EntitySchema({
       type: "one-to-many",
       inverseSide: "user",
     },
+    messages: {
+      target: "Message",
+      type: "one-to-many",
+      inverseSide: "user",
+    },
   },
 });
