@@ -10,8 +10,12 @@ module.exports = new EntitySchema({
       unique: true,
       type: "int",
     },
-    datetime: {
+    created: {
       type: "varchar",
+    },
+    updated: {
+      type: "varchar",
+      default: null,
     },
     content: {
       type: "varchar",

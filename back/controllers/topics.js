@@ -2,7 +2,6 @@ const { getManager } = require("typeorm");
 const HttpError = require("../utils/http-error");
 
 const Topic = require("../models/topics");
-const User = require("../models/users");
 const Message = require("../models/messages");
 
 exports.createTopic = async (req, res) => {
