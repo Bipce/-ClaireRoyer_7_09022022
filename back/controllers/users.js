@@ -48,7 +48,7 @@ exports.deleteUser = async (req, res) => {
 
   await entityManager.delete(User, req.user.id);
 
-  res.status(200).json("User and all messages has been deleted !");
+  res.status(200).json("Your acount has been deleted !");
 };
 
 // delete all the user (topic, message)

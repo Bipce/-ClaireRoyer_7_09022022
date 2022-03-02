@@ -7,8 +7,6 @@ const Message = require("../models/messages");
 exports.createTopic = async (req, res) => {
   const { title, content } = req.body;
 
-  console.log(req.user);
-
   const entityManager = getManager();
 
   const topic = {
@@ -69,7 +67,7 @@ exports.deleteTopic = async (req, res) => {
     await entityManager.delete(Message, message.id);
   }
   await entityManager.delete(Topic, topic.id);
-  res.status(200).json("Topic deleted !");
+  res.status(200).json(topic);
 };
 
 exports.getTopic = async (req, res) => {

@@ -1,7 +1,11 @@
 import Banner from "./Banner";
 
 const App = () => {
-  return <Banner />;
+  return (
+    <>
+      <Banner />
+    </>
+  );
 };
 
 export default App;

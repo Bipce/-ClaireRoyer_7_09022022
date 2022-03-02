@@ -20,7 +20,10 @@ exports.signup = async (req, res) => {
 
   try {
     await entityManager.save(User, user);
-    res.status(201).json({ message: "User created !" });
+    res.status(200).json({
+      userId: user._id,
+      token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET),
+    });
   } catch (error) {
     throw new HttpError(error, 400);
   }
