@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import Topic from "./pages/Topic";
+import MessagePage from "./pages/MessagePage";
+import TopicPage from "./pages/TopicPage";
 // import Test from "./pages/Test";
 import "./styles/index.css";
 
@@ -13,8 +15,14 @@ ReactDOM.render(
         <Route exact path="/">
           <Home />
         </Route>
+        <Route exact path="/">
+          <Navbar />
+        </Route>
         <Route path="/topic">
-          <Topic />
+          <TopicPage />
+        </Route>
+        <Route path="/message">
+          <MessagePage />
         </Route>
         {/* <Route path="/test/:questionNumber">
           <Test />

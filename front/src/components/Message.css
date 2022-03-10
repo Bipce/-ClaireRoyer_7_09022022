@@ -1,11 +1,14 @@
 .message {
-  background-color: #ffd7d7;
-  display: flex;
-}
-.message__pseudo-time {
-  width: 10rem;
+  background-color: white;
+  box-shadow: 0px 1px 3px black;
+  margin-top: 1rem;
 }
 
-.test {
-  margin: 0;
+.message__pseudo-time {
+  font-size: 0.8rem;
+  margin: 0 1rem;
+}
+
+.message__user {
+  margin: 0 1rem;
 }

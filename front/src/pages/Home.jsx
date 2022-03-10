@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import Topic from "../components/Topic";
 
-const App = () => {
+const Home = () => {
   return (
     <div>
       <Navbar />
@@ -10,4 +10,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;

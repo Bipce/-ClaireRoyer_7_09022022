@@ -1,16 +1,11 @@
 import "./Topic.css";
+import "../styles/buttons.css";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: black;
-`;
 
 const Topic = () => {
   return (
     <div className="topic">
-      <StyledLink to="/topic">
+      <Link to="/topic">
         <div className="topic__pseudo-time">
           <p>Pseudo+heure</p>
         </div>
@@ -20,7 +15,11 @@ const Topic = () => {
             Text/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/Image
           </div>
         </div>
-      </StyledLink>
+      </Link>
+      <div className="button">
+        <button className="button--del">Supprimer</button>
+        <button className="button--mod">Modifier</button>
+      </div>
     </div>
   );
 };
