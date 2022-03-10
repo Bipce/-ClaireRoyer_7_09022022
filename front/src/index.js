@@ -1,11 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./pages/Home";
+import Topic from "./pages/Topic";
+// import Test from "./pages/Test";
 import "./styles/index.css";
-import App from "./components/App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/topic">
+          <Topic />
+        </Route>
+        {/* <Route path="/test/:questionNumber">
+          <Test />
+        </Route> */}
+      </Switch>
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );

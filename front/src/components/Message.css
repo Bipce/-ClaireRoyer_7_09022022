@@ -1,0 +1,11 @@
+.message {
+  background-color: #ffd7d7;
+  display: flex;
+}
+.message__pseudo-time {
+  width: 10rem;
+}
+
+.test {
+  margin: 0;
+}

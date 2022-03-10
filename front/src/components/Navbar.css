@@ -1,0 +1,31 @@
+.navbar {
+  display: flex;
+  justify-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.navbar__title {
+  margin: 0.6rem 0 0 0.5rem;
+  width: 50%;
+  font-size: 1.5rem;
+  background: -webkit-linear-gradient(#ffd7d7, #fd2d01);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar__icon-pseudo {
+  width: 50%;
+  display: flex;
+  justify-content: right;
+}
+
+.material-icons {
+  margin-top: 0.8rem;
+  background: -webkit-linear-gradient(#ffd7d7, #fd2d01);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar__username {
+  margin-right: 0.5rem;
+}

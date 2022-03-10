@@ -20,6 +20,10 @@ module.exports = new EntitySchema({
     password: {
       type: "varchar",
     },
+    isAdmin: {
+      type: "tinyint",
+      default: 0,
+    },
   },
   relations: {
     topics: {
