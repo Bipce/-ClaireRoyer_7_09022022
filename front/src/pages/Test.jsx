@@ -1,28 +1,23 @@
-// import { useParams } from "react-router-dom";
-// // import Protypes from "prop-types";
-// // import styled from "styled-components";
+import { useState } from "react";
 
-// // const TestLabel = styled.span`
-// //   color: blue;
-// //   front-size: 22px;
-// //   font-weight: bold;
-// // `;
+const Test = () => {
+  const num1 = 10;
+  const [num, updateNum] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
-// // const TestImage = styled.img`
-// //   height: 80px;
-// //   width: 80px;
-// //   border-radius: 50%;
-// // `;
+  return isOpen ? (
+    <div>
+      <button onClick={() => setIsOpen(false)}>Fermer</button>
 
-// const Test = () => {
-//   const { questionNumber } = useParams();
+      <h1>Nombre 1: {num1}</h1>
+      <button onClick={() => updateNum(num + num1)}>Ajouter</button>
+      <h2>
+        Total: {[num]} + {num1} = {num + num1}
+      </h2>
+    </div>
+  ) : (
+    <button onClick={() => setIsOpen(true)}>Ouvrir</button>
+  );
+};
 
-//   return (
-//     <div>
-//       <h1>Questionnaire</h1>
-//       <h2>Question {questionNumber} </h2>
-//     </div>
-//   );
-// };
-
-// export default Test;
+export default Test;

@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import MessagePage from "./pages/MessagePage";
 import TopicPage from "./pages/TopicPage";
+import MessagePage from "./pages/MessagePage";
 // import Test from "./pages/Test";
 import "./styles/index.css";
 

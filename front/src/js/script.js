@@ -1,14 +1,16 @@
-// const main = async () => {
-//   try {
-//     const response = await fetch("http://localhost:3000/api/topics");
-//     const topics = await response.json();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+import { useEffect } from "react";
 
-// main();
+const Topics = () => {
+  useEffect(() => {
+    fetch("http://localhost:3001/api/topics").then((res) =>
+      res
+        .json()
+        .then((topics) => {
+          console.log(topics[0]);
+        })
+        .catch((err) => console.log(err))
+    );
+  }, []);
+};
 
-fetch("http://localhost:3000/api/topics")
-  .then((response) => response.json())
-  .then((topics) => {});
+export default Topics;

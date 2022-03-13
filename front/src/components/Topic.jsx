@@ -1,8 +1,20 @@
 import "./Topic.css";
 import "../styles/buttons.css";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Topic = () => {
+  useEffect(() => {
+    fetch("http://localhost:3001/api/topics").then((res) =>
+      res
+        .json()
+        .then((topics) => {
+          console.log(topics);
+        })
+        .catch((err) => console.log(err))
+    );
+  }, []);
+
   return (
     <div className="topic">
       <Link to="/topic">
@@ -10,9 +22,14 @@ const Topic = () => {
           <p>Pseudo+heure</p>
         </div>
         <div className="topic__title-content">
-          <h1 className="topic__title">Title of topic</h1>
+          <h1 className="topic__title">title</h1>
           <div>
-            Text/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/ImageText/Image
+            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
+            Text/Image Text/Image Text/Image Text/Image Text/ImageText/Image
+            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
+            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
+            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
+            Text/Image Text/Image
           </div>
         </div>
       </Link>
