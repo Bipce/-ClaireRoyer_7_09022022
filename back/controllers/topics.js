@@ -71,9 +71,9 @@ exports.deleteTopic = async (req, res) => {
 };
 
 exports.getTopic = async (req, res) => {
-  const topicRepository = getRepository(Topic);
+  const entityManager = getManager();
 
-  const topic = await topicRepository.findOne(req.params.id, {
+  const topic = await entityManager.findOne(Topic, req.params.id, {
     relations: ["user", "messages"],
   });
   if (!topic) throw new HttpError("Topic not found!", 404);

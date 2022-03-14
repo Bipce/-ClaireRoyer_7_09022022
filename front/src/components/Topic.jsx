@@ -1,45 +1,44 @@
 import "./Topic.css";
 import "../styles/buttons.css";
 import { Link } from "react-router-dom";
-import Axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const Topic = () => {
-  const [topics, setTopics] = useState(false);
+const Topic = (props) => {
+  const { id, user, title, content, created } = props.data;
+  const { hasButtons } = props;
 
-  const getTopics = () => {
-    Axios.get("http://localhost:3001/api/topics").then((response) => {
-      console.log(response.data.map((topics) => <p key={topics.id}></p>));
-      setTopics(
-        response.data.map((topics) => (
-          <h1 key={topics.id}>Title: {topics.title}</h1>
-        ))
-      );
-    });
-  };
+  const [createdDate, setCreatedDate] = useState();
+
+  useEffect(() => {
+    const timestamp = parseInt(created);
+    const date = new Date(timestamp);
+
+    setCreatedDate(
+      `${date.toLocaleDateString()} ${date.getHours()}:${date.getMinutes()}`
+    );
+  }, []);
 
   return (
     <div className="topic">
-      <Link to="/topic">
+      <Link to={"/topic/" + id}>
         <div className="topic__pseudo-time">
-          <p>Pseudo+heure</p>
+          <p>
+            {user.username} {createdDate}
+          </p>
         </div>
         <div className="topic__title-content">
-          <h1 className="topic__title">Title: {topics.title}</h1>
-          <div>
-            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
-            Text/Image Text/Image Text/Image Text/Image Text/ImageText/Image
-            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
-            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
-            Text/Image Text/Image Text/Image Text/Image Text/Image Text/Image
-            Text/Image Text/Image
+          <h1 className="topic__title">{title}</h1>
+          <div style={{ paddingBottom: !hasButtons ? "1rem" : "0" }}>
+            {content}
           </div>
         </div>
       </Link>
-      <div className="button">
-        <button className="button--del">Supprimer</button>
-        <button className="button--mod">Modifier</button>
-      </div>
+      {hasButtons && (
+        <div className="button">
+          <button className="button--del">Supprimer</button>
+          <button className="button--mod">Modifier</button>
+        </div>
+      )}
     </div>
   );
 };

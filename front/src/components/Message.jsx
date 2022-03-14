@@ -20,3 +20,5 @@ const Message = () => {
 };
 
 export default Message;
+
+// All message.
