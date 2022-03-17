@@ -74,7 +74,7 @@ exports.getTopic = async (req, res) => {
   const entityManager = getManager();
 
   const topic = await entityManager.findOne(Topic, req.params.id, {
-    relations: ["user", "messages"],
+    relations: ["user", "messages", "messages.user"],
   });
   if (!topic) throw new HttpError("Topic not found!", 404);
   res.status(201).json(topic);
@@ -84,7 +84,9 @@ exports.getTopics = async (req, res) => {
   const entityManager = getManager();
 
   const topics = await entityManager.find(Topic, {
-    relations: ["user", "messages"],
+    relations: ["user"],
   });
-  await res.status(200).json(topics);
+
+  if (!topics) throw new HttpError("Topic not found!", 404);
+  res.status(200).json(topics);
 };

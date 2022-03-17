@@ -21,13 +21,14 @@ const Topic = (props) => {
   return (
     <div className="topic">
       <Link to={"/topic/" + id}>
-        <div className="topic__pseudo-time">
-          <p>
-            {user.username} {createdDate}
-          </p>
+        <div className="topic__informations ">
+          <div className="topic__userName--time margin0_4">
+            <p className="topic__userName capitalize">{user.username}</p>
+            <p>{createdDate}</p>
+          </div>
         </div>
-        <div className="topic__title-content">
-          <h1 className="topic__title">{title}</h1>
+        <div className="topic__title-content margin0_4">
+          <h1 className="topic__title capitalize">{title}</h1>
           <div style={{ paddingBottom: !hasButtons ? "1rem" : "0" }}>
             {content}
           </div>
@@ -35,8 +36,8 @@ const Topic = (props) => {
       </Link>
       {hasButtons && (
         <div className="button">
-          <button className="button--del">Supprimer</button>
-          <button className="button--mod">Modifier</button>
+          <button className="button__del button__style">Supprimer</button>
+          <button className="button__mod button__style">Modifier</button>
         </div>
       )}
     </div>

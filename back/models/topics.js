@@ -12,6 +12,7 @@ module.exports = new EntitySchema({
     },
     title: {
       type: "varchar",
+      length: 50,
     },
     created: {
       type: "varchar",
@@ -22,6 +23,7 @@ module.exports = new EntitySchema({
     },
     content: {
       type: "varchar",
+      length: 600,
     },
   },
   relations: {

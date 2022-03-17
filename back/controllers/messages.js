@@ -76,3 +76,25 @@ exports.deletMessage = async (req, res) => {
   await entityManager.delete(Message, message);
   res.status(200).json(message);
 };
+
+exports.getMessages = async (req, res) => {
+  const entityManager = getManager();
+
+  const messages = await entityManager.find(Message, {
+    relations: ["user", "topic"],
+  });
+
+  if (!messages) throw new HttpError("Message not found !", 404);
+  res.status(200).json(messages);
+};
+
+exports.getMessage = async (req, res) => {
+  const entityManager = getManager();
+
+  const message = await entityManager.findOne(Message, req.params.id, {
+    relations: ["user", "topic"],
+  });
+
+  if (!message) throw new HttpError("Message not found !", 404);
+  res.status(200).json(message);
+};

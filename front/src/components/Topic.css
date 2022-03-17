@@ -1,17 +1,28 @@
 .topic {
   background-color: white;
   box-shadow: 0px 1px 3px black;
+  margin-bottom: 1rem;
 }
 
-.topic__pseudo-time {
+.topic__informations {
   font-size: 0.8rem;
-  margin: 0 1rem;
 }
 
-.topic__title-content {
-  margin: 0 1rem;
+.topic__userName--time {
+  display: flex;
+}
+
+.topic__userName {
+  font-weight: bold;
+  margin-right: 0.2rem;
 }
 
 .topic__title {
   font-size: 1.3rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.button__del,
+.button__mod {
+  font-size: 0.7rem;
 }

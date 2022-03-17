@@ -2,13 +2,28 @@
   background-color: white;
   box-shadow: 0px 1px 3px black;
   margin-top: 1rem;
+  display: flex;
 }
 
-.message__pseudo-time {
+.message__informations {
+  width: 80%;
+}
+
+.message__userName-time {
   font-size: 0.8rem;
-  margin: 0 1rem;
+  display: flex;
 }
 
-.message__user {
-  margin: 0 1rem;
+.message__userName {
+  margin-right: 0.2rem;
+}
+
+.message__button {
+  display: flex;
+  flex-direction: column;
+}
+
+.message__button--del,
+.message__button--mod {
+  font-size: 0.7rem;
 }

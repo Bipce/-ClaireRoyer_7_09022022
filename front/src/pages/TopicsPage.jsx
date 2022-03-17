@@ -13,11 +13,11 @@ const TopicPage = () => {
   }, []);
 
   return (
-    <>
+    <div className="topics">
       {topics.map((topic) => (
         <Topic key={topic.id} data={topic} />
       ))}
-    </>
+    </div>
   );
 };
 

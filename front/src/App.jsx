@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TopicPage from "./pages/TopicPage";
+import Message from "./components/Message";
 
 const App = () => {
   return (
@@ -16,6 +17,9 @@ const App = () => {
         </Route>
         <Route path="/topic/:id">
           <TopicPage />
+        </Route>
+        <Route>
+          <Message path="/topic:id/messages" />
         </Route>
       </Switch>
     </Router>
