@@ -51,4 +51,6 @@ exports.deleteUser = async (req, res) => {
   res.status(200).json("Your acount has been deleted !");
 };
 
-// delete all the user (topic, message)
+exports.meRequest = async (req, res) => {
+  res.status(200).json({ username: req.user.username });
+};

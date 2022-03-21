@@ -5,12 +5,12 @@
 
 .topic {
   overflow: scroll;
-  max-height: 40vh;
+  height: 25vh;
 }
 
 .messages {
   overflow: scroll;
-  max-height: 32vh;
+  height: 47vh;
 }
 
 .message__userName {
@@ -18,8 +18,6 @@
 }
 
 .textAreaContainer {
-  position: absolute;
-  bottom: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -44,4 +42,8 @@
 
 .return__button {
   margin: 0.5rem auto;
+}
+
+.test {
+  background-color: #ffd7d7;
 }

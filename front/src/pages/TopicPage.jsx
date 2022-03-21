@@ -1,15 +1,19 @@
 import Topic from "../components/Topic";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Message from "../components/Message";
 import "./TopicPage.css";
+import { UserContext } from "../contexts/User";
 
 const TopicPage = () => {
   const [topic, setTopic] = useState();
   const { id } = useParams();
+  const { user, login } = useContext(UserContext);
 
   useEffect(() => {
+    console.log(user);
+
     (async () => {
       const response = await axios.get(
         `http://localhost:3001/api/topics/${id}`
