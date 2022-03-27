@@ -5,7 +5,7 @@ export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [check, setCheck] = useState();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   const tokenKey = "token";
   const tokenHeaderKey = "Authorization";
@@ -17,13 +17,17 @@ export const UserProvider = ({ children }) => {
     axios.defaults.headers.common[tokenHeaderKey] = `Bearer ${token}`;
   };
 
-  const logout = () => {};
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem(tokenKey);
+    axios.defaults.headers.common[tokenHeaderKey] = null;
+  };
 
   useEffect(() => {
     const token = localStorage.getItem(tokenKey);
 
-    if (token) {
-      (async () => {
+    (async () => {
+      if (token) {
         try {
           const response = await axios.get(
             "http://localhost:3001/api/users/me",
@@ -34,10 +38,12 @@ export const UserProvider = ({ children }) => {
             }
           );
           login(token, response.data);
-        } catch (error) {}
-        setCheck(true);
-      })();
-    }
+        } catch (error) {
+          if (error) logout();
+        }
+      }
+      setCheck(true);
+    })();
   }, []);
 
   return (

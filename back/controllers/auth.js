@@ -23,6 +23,7 @@ exports.signup = async (req, res) => {
     res.status(200).json({
       userId: user._id,
       token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET),
+      user: { username: user.username },
     });
   } catch (error) {
     throw new HttpError(error, 400);
@@ -46,5 +47,6 @@ exports.login = async (req, res) => {
     userId: user._id,
     isAdmin: user.isAdmin,
     token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET, options),
+    user: { username: user.username },
   });
 };

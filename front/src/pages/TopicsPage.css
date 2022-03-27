@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 91vh;
+}
+
+.topic__button {
+  width: 8rem;
+  padding: 0.3rem;
+  font-size: 1rem;
+  margin: auto;
+  display: flex;
+}
+
+.topics {
+  overflow: scroll;
+  max-height: 92vh;
+}
+
+.topic {
+  scrollbar-width: none;
+}
+
+@media screen and (min-width: 1400px) {
+  .topics {
+    width: 50%;
+    margin: auto;
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .topics {
+    margin: auto;
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 992px) {
+  .topics {
+    margin: auto;
+    width: 85%;
+  }
+}

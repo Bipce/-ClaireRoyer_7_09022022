@@ -37,8 +37,3 @@ a {
 .capitalize {
   text-transform: capitalize;
 }
-
-.topics {
-  overflow: scroll;
-  max-height: 92vh;
-}

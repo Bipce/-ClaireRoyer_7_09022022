@@ -1,36 +1,34 @@
-import TopicsPage from "./pages/TopicsPage";
-import { Link } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import TopicPage from "./pages/TopicPage";
-import Message from "./components/Message";
-import Login from "./components/Login";
 import { useContext } from "react";
+import TopicsPage from "./pages/TopicsPage";
+import TopicPage from "./pages/TopicPage";
+import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
 import { UserContext } from "./contexts/User";
+import Register from "./pages/Register";
 
 const App = () => {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   let routes;
 
   if (user) {
     routes = (
       <Switch>
-        <Route exact path="/">
-          <TopicsPage />
-        </Route>
+        <Route exact path="/" component={TopicsPage} />
         <Route path="/topic/:id">
           <TopicPage />
         </Route>
-        <Route>
-          <Message path="/topic:id/messages" />
-        </Route>
+        <Redirect to="/" />
       </Switch>
     );
   } else {
     routes = (
       <Switch>
+        <Route exact path="/register" component={Register} />
         <Route exact path="/" component={Login} />
+        <Redirect to="/" />
       </Switch>
     );
   }

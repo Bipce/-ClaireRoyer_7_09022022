@@ -33,7 +33,6 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  /* background-color: #ffd7d7; */
 }
 
 .textAreaButton {
@@ -46,4 +45,43 @@
 
 .test {
   background-color: #ffd7d7;
+}
+
+@media screen and (min-width: 1400px) {
+  .topicPage {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 993px) {
+  body {
+    overflow: hidden;
+  }
+  .topicPage {
+    width: 70%;
+    margin: auto;
+  }
+
+  .topic {
+    height: 22.5vh;
+  }
+
+  .messages {
+    height: 53vh;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 992px) {
+  .topicPage {
+    width: 85%;
+    margin: auto;
+  }
+
+  .topic {
+    height: 22.5vh;
+  }
+
+  .messages {
+    height: 52vh;
+  }
 }

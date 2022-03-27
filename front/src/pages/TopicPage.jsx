@@ -12,8 +12,6 @@ const TopicPage = () => {
   const { user, login } = useContext(UserContext);
 
   useEffect(() => {
-    console.log(user);
-
     (async () => {
       const response = await axios.get(
         `http://localhost:3001/api/topics/${id}`
@@ -50,5 +48,3 @@ const TopicPage = () => {
 };
 
 export default TopicPage;
-
-// One topic
