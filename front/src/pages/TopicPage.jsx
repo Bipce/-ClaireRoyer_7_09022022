@@ -1,26 +1,41 @@
 import Topic from "../components/Topic";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Message from "../components/Message";
 import "./TopicPage.css";
-import { UserContext } from "../contexts/User";
+import { useHistory } from "react-router-dom";
+import useForm from "../hooks/useForm";
 
 const TopicPage = () => {
-  const [topic, setTopic] = useState();
   const { id } = useParams();
-  const { user, login } = useContext(UserContext);
+  const initialState = { content: "", topicId: id };
+  const [state, handleChange, setState] = useForm(initialState);
+  const [topic, setTopic] = useState();
+  const history = useHistory();
+
+  const getTopic = async () => {
+    const response = await axios.get(`http://localhost:3001/api/topics/${id}`);
+    setTopic(response.data);
+  };
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(
-        `http://localhost:3001/api/topics/${id}`
-      );
-      setTopic(response.data);
+      await getTopic();
     })();
   }, []);
 
   if (!topic) return null;
+
+  const sendMessage = async () => {
+    try {
+      await axios.post("http://localhost:3001/api/messages", state);
+      setState(initialState);
+      await getTopic();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="topicPage">
@@ -32,15 +47,32 @@ const TopicPage = () => {
       </div>
       <div className="textAreaContainer">
         <textarea
-          id="textArea"
+          onChange={handleChange}
+          id="content"
+          value={state.content}
           rows={5}
           cols={40}
           placeholder="Envoyer un message."
           autoFocus
         ></textarea>
         <div className="topicPage__buttons">
-          <button className="textAreaButton button__style">Envoyer</button>
-          <button className="return__button button__style">Retour</button>
+          <button
+            type="submit"
+            className="textAreaButton button__style"
+            onClick={() => {
+              sendMessage();
+            }}
+          >
+            Envoyer
+          </button>
+          <button
+            className="return__button button__style"
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            Retour
+          </button>
         </div>
       </div>
     </div>

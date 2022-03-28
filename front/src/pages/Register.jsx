@@ -18,7 +18,6 @@ const Register = () => {
         "http://localhost:3001/api/auth/signup",
         state
       );
-      console.log(response);
       login(response.data.token, response.data.user);
     } catch (error) {
       console.log(error);
