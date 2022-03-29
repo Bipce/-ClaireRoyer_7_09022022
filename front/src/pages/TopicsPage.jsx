@@ -1,5 +1,5 @@
 import Topic from "../components/Topic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./TopicsPage.css";
 import useForm from "../hooks/useForm";
@@ -8,10 +8,11 @@ const TopicPage = () => {
   const [topics, setTopics] = useState([]);
   const initialState = { content: "", title: "" };
   const [state, handleChange, setState] = useForm(initialState);
+  const topicsDivRef = useRef();
 
   const getTopics = async () => {
     const response = await axios.get("http://localhost:3001/api/topics");
-    setTopics(response.data);
+    setTopics(response.data.sort((t1, t2) => t1.created < t2.created));
   };
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const TopicPage = () => {
       await axios.post("http://localhost:3001/api/topics", state);
       setState(initialState);
       await getTopics();
+      topicsDivRef.current.scrollTo(0, 0);
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +35,7 @@ const TopicPage = () => {
   return (
     <div className="container">
       {topics.length > 0 && (
-        <div className="topics">
+        <div className="topics" ref={topicsDivRef}>
           {topics.map((topic) => (
             <Topic key={topic.id} data={topic} />
           ))}

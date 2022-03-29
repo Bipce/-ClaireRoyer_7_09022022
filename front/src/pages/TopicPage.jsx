@@ -1,6 +1,6 @@
 import Topic from "../components/Topic";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Message from "../components/Message";
 import "./TopicPage.css";
@@ -12,6 +12,7 @@ const TopicPage = () => {
   const initialState = { content: "", topicId: id };
   const [state, handleChange, setState] = useForm(initialState);
   const [topic, setTopic] = useState();
+  const messagesDivRef = useRef();
   const history = useHistory();
 
   const getTopic = async () => {
@@ -32,6 +33,7 @@ const TopicPage = () => {
       await axios.post("http://localhost:3001/api/messages", state);
       setState(initialState);
       await getTopic();
+      messagesDivRef.current.scrollTo(0, 0);
     } catch (error) {
       console.log(error);
     }
@@ -40,10 +42,12 @@ const TopicPage = () => {
   return (
     <div className="topicPage">
       <Topic data={topic} hasButtons />
-      <div className="messages">
-        {topic.messages.map((message) => (
-          <Message key={message.id} data={message} />
-        ))}
+      <div className="messages" ref={messagesDivRef}>
+        {topic.messages
+          .sort((m1, m2) => m1.created < m2.created)
+          .map((message) => (
+            <Message key={message.id} data={message} />
+          ))}
       </div>
       <div className="textAreaContainer">
         <textarea
