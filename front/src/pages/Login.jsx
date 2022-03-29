@@ -35,7 +35,7 @@ const Login = () => {
       />
       <label htmlFor="email">Votre mot de passe</label>
       <input
-        type="text"
+        type="password"
         id="password"
         value={state.password}
         onChange={handleChange}

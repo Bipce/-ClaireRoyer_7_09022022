@@ -59,9 +59,7 @@ const TopicPage = () => {
           <button
             type="submit"
             className="textAreaButton button__style"
-            onClick={() => {
-              sendMessage();
-            }}
+            onClick={sendMessage}
           >
             Envoyer
           </button>

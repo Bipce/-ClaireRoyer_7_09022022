@@ -3,6 +3,7 @@
   box-shadow: 0px 1px 3px black;
   margin-top: 1rem;
   display: flex;
+  justify-content: space-between;
 }
 
 .message__informations {
@@ -21,6 +22,7 @@
 .message__button {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .message__button--del,

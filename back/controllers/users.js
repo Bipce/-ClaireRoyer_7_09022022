@@ -41,6 +41,7 @@ exports.deleteUser = async (req, res) => {
     for (const message of req.user.messages) {
       await entityManager.delete(Message, message.id);
     }
+
     for (const topics of req.user.topics) {
       await entityManager.delete(Topic, topics.id);
     }

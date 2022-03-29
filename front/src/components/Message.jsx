@@ -26,15 +26,13 @@ const Message = (props) => {
         <p className="message__content margin0_4">{content}</p>
       </div>
       <div className="message__button">
+        <button className="message__button--mod button__style">Modifier</button>
         <button className="message__button--del button__style">
           Supprimer
         </button>
-        <button className="message__button--mod button__style">Modifier</button>
       </div>
     </div>
   );
 };
 
 export default Message;
-
-// All message.
