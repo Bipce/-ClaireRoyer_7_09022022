@@ -27,6 +27,7 @@ module.exports = new EntitySchema({
     },
     imagesUrl: {
       type: "varchar",
+      length: 500,
     },
   },
   relations: {

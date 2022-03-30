@@ -1,5 +1,6 @@
 const multer = require("multer");
 const HttpError = require("../utils/http-error");
+const { v4: uuid } = require("uuid");
 
 const MINE_TYPES = {
   "image/jpg": "jpg",
@@ -12,7 +13,7 @@ const storage = multer.diskStorage({
   filename: (req, file, callback) => {
     const extension = MINE_TYPES[file.mimetype];
     const error = !extension ? new HttpError("", 400) : null;
-    callback(error, Date.now() + "." + extension);
+    callback(error, uuid() + "." + extension);
   },
 });
 
