@@ -6,14 +6,24 @@ const Message = require("../models/messages");
 
 exports.createTopic = async (req, res) => {
   const { title, content } = req.body;
+  const { files } = req;
 
   const entityManager = getManager();
+
+  let imagesUrl = "";
+  if (files) {
+    for (let i = 0; i < files.length; i++) {
+      imagesUrl += files[i].filename;
+      if (i < files.length - 1) imagesUrl += "|";
+    }
+  }
 
   const topic = {
     title,
     created: Date.now(),
     user: req.user,
     content,
+    imagesUrl,
   };
 
   try {

@@ -20,6 +20,9 @@ module.exports = new EntitySchema({
     content: {
       type: "varchar",
     },
+    imagesUrl: {
+      type: "varchar",
+    },
   },
   relations: {
     user: {

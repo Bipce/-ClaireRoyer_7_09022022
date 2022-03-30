@@ -6,6 +6,7 @@ const Topic = require("../models/topics");
 
 exports.createMessage = async (req, res) => {
   const { content, topicId } = req.body;
+  const { files } = req;
 
   const entityManager = getManager();
 
@@ -13,11 +14,20 @@ exports.createMessage = async (req, res) => {
 
   if (!topic) throw new HttpError("Topic not found !", 404);
 
+  let imagesUrl = "";
+  if (files) {
+    for (let i = 0; i < files.length; i++) {
+      imagesUrl += files[i].filename;
+      if (i < files.length - 1) imagesUrl += "|";
+    }
+  }
+
   const message = {
     created: Date.now(),
     content,
     user: req.user,
     topic,
+    imagesUrl,
   };
 
   try {
