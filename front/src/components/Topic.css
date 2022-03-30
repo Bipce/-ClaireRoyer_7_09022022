@@ -22,6 +22,11 @@
   margin: 0 0 1.5rem 0;
 }
 
+.topic__content {
+  display: flex;
+  flex-direction: column;
+}
+
 .button__del,
 .button__mod {
   font-size: 0.7rem;

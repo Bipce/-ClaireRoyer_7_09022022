@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Topic = (props) => {
-  const { id, user, title, content, created } = props.data;
+  const { id, user, title, content, created, imagesUrl } = props.data;
   const { hasButtons } = props;
 
   const [createdDate, setCreatedDate] = useState();
@@ -29,8 +29,23 @@ const Topic = (props) => {
         </div>
         <div className="topic__title-content margin0_4">
           <h1 className="topic__title capitalize">{title}</h1>
-          <div style={{ paddingBottom: !hasButtons ? "1rem" : "0" }}>
+          <div
+            style={{ paddingBottom: !hasButtons ? "1rem" : "0" }}
+            className="topic__content"
+          >
             {content}
+            <div className="images">
+              {imagesUrl &&
+                imagesUrl
+                  .split("|")
+                  .map((file) => (
+                    <img
+                      key={file}
+                      src={`${process.env.REACT_APP_SERVER}/images/${file}`}
+                      alt={file}
+                    />
+                  ))}
+            </div>
           </div>
         </div>
       </Link>

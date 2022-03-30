@@ -9,6 +9,7 @@ const TopicPage = () => {
   const initialState = { content: "", title: "" };
   const [state, handleChange, setState] = useForm(initialState);
   const topicsDivRef = useRef();
+  const fileInput = useRef();
 
   const getTopics = async () => {
     const response = await axios.get("http://localhost:3001/api/topics");
@@ -23,7 +24,17 @@ const TopicPage = () => {
 
   const createTopic = async () => {
     try {
-      await axios.post("http://localhost:3001/api/topics", state);
+      const formData = new FormData();
+      formData.append("title", state.title);
+      formData.append("content", state.content);
+      for (const file of fileInput.current.files) {
+        formData.append("image", file);
+      }
+      await axios.post("http://localhost:3001/api/topics", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setState(initialState);
       await getTopics();
       topicsDivRef.current.scrollTo(0, 0);
@@ -34,6 +45,7 @@ const TopicPage = () => {
 
   return (
     <div className="container">
+      <input type="file" style={{ display: "none" }} ref={fileInput} multiple />
       {topics.length > 0 && (
         <div className="topics" ref={topicsDivRef}>
           {topics.map((topic) => (
@@ -42,30 +54,42 @@ const TopicPage = () => {
         </div>
       )}
       <div className="textAreaContainer">
-        <input
-          className="topic__title--input"
-          onChange={handleChange}
-          type="text"
-          id="title"
-          placeholder="Votre titre"
-          value={state.title}
-        />
-        <textarea
-          className="topic__content--area"
-          onChange={handleChange}
-          id="content"
-          rows={5}
-          value={state.content}
-          placeholder="Contenu de votre topic."
-          autoFocus
-        ></textarea>
-        <button
-          className="button__style topic__button"
-          type="submit"
-          onClick={createTopic}
-        >
-          Créer un topic
-        </button>
+        <form>
+          <input
+            className="topic__title--input"
+            onChange={handleChange}
+            type="text"
+            id="title"
+            placeholder="Votre titre"
+            value={state.title}
+          />
+          <input
+            className="topic__content--area"
+            onChange={handleChange}
+            id="content"
+            rows={5}
+            value={state.content}
+            placeholder="Contenu de votre topic."
+            autoFocus
+          />
+          <div className="button__topics">
+            <button
+              className="button__style topic__button"
+              type="submit"
+              onClick={createTopic}
+            >
+              Créer un topic
+            </button>
+            <button
+              className="button__style images__button"
+              onClick={() => {
+                fileInput.current.click();
+              }}
+            >
+              Images
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

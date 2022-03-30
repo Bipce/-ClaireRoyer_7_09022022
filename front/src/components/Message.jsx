@@ -3,7 +3,7 @@ import "../styles/buttons.css";
 import { useEffect, useState } from "react";
 
 const Message = (props) => {
-  const { user, content, created } = props.data;
+  const { user, content, created, imagesUrl } = props.data;
 
   const [createdDate, setCreatedDate] = useState();
 
@@ -24,6 +24,16 @@ const Message = (props) => {
           <p>{createdDate}</p>
         </div>
         <p className="message__content margin0_4">{content}</p>
+        {imagesUrl &&
+          imagesUrl
+            .split("|")
+            .map((file) => (
+              <img
+                key={file}
+                src={`${process.env.REACT_APP_SERVER}/images/${file}`}
+                alt={file}
+              />
+            ))}
       </div>
       <div className="message__button">
         <button className="message__button--mod button__style">Modifier</button>

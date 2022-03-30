@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  max-height: 100vh;
   font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -18,6 +17,13 @@ code {
 a {
   text-decoration: none;
   color: black;
+}
+
+img {
+  width: 100%;
+  height: 20vh;
+  object-fit: cover;
+  margin-bottom: 0.2rem;
 }
 
 .margin0_4 {
@@ -41,4 +47,23 @@ a {
 .deletePage {
   display: flex;
   justify-content: center;
+}
+
+.images {
+  text-align: center;
+}
+
+@media screen and (min-width: 577px) and (max-width: 992px) {
+  img {
+    width: 48%;
+    margin: 0 0.1rem;
+  }
+}
+
+@media screen and (min-width: 993px) {
+  img {
+    width: 48%;
+    margin: 0 0.1rem;
+    text-align: center;
+  }
 }

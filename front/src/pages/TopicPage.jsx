@@ -9,11 +9,12 @@ import useForm from "../hooks/useForm";
 
 const TopicPage = () => {
   const { id } = useParams();
-  const initialState = { content: "", topicId: id };
+  const initialState = { content: "" };
   const [state, handleChange, setState] = useForm(initialState);
   const [topic, setTopic] = useState();
   const messagesDivRef = useRef();
   const history = useHistory();
+  const fileInput = useRef();
 
   const getTopic = async () => {
     const response = await axios.get(`http://localhost:3001/api/topics/${id}`);
@@ -30,7 +31,18 @@ const TopicPage = () => {
 
   const sendMessage = async () => {
     try {
-      await axios.post("http://localhost:3001/api/messages", state);
+      const formData = new FormData();
+      formData.append("topicId", id);
+      formData.append("content", state.content);
+      for (const file of fileInput.current.files) {
+        formData.append("image", file);
+      }
+
+      await axios.post("http://localhost:3001/api/messages", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setState(initialState);
       await getTopic();
       messagesDivRef.current.scrollTo(0, 0);
@@ -41,6 +53,7 @@ const TopicPage = () => {
 
   return (
     <div className="topicPage">
+      <input type="file" style={{ display: "none" }} ref={fileInput} multiple />
       <Topic data={topic} hasButtons />
       <div className="messages" ref={messagesDivRef}>
         {topic.messages
@@ -50,7 +63,7 @@ const TopicPage = () => {
           ))}
       </div>
       <div className="textAreaContainer">
-        <textarea
+        <input
           onChange={handleChange}
           id="content"
           value={state.content}
@@ -58,7 +71,7 @@ const TopicPage = () => {
           cols={40}
           placeholder="Envoyer un message."
           autoFocus
-        ></textarea>
+        />
         <div className="topicPage__buttons">
           <button
             type="submit"
@@ -66,6 +79,14 @@ const TopicPage = () => {
             onClick={sendMessage}
           >
             Envoyer
+          </button>
+          <button
+            className="button__style images__button"
+            onClick={() => {
+              fileInput.current.click();
+            }}
+          >
+            Images
           </button>
           <button
             className="return__button button__style"
