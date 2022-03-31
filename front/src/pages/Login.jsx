@@ -25,7 +25,7 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className="login__form">
       <label htmlFor="email">Votre email</label>
       <input
         type="text"
@@ -41,7 +41,7 @@ const Login = () => {
         onChange={handleChange}
       />
       <button type="submit" className="button__style login__button">
-        Login
+        Se connecter
       </button>
     </form>
   );

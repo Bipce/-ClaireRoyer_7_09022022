@@ -27,18 +27,24 @@
 
 .button__topics {
   display: flex;
+  justify-content: space-between;
 }
 
 .topic__button {
   width: 8rem;
   font-size: 1rem;
-  margin: 0.7rem auto;
 }
 
 .images__button {
   font-size: 1rem;
   width: 5rem;
   text-align: center;
+}
+
+.file__count {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
 }
 
 @media screen and (min-width: 577px) and (max-width: 992px) {

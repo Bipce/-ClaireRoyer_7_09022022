@@ -12,6 +12,7 @@ const TopicPage = () => {
   const initialState = { content: "" };
   const [state, handleChange, setState] = useForm(initialState);
   const [topic, setTopic] = useState();
+  const [fileCount, setFileCount] = useState();
   const messagesDivRef = useRef();
   const history = useHistory();
   const fileInput = useRef();
@@ -44,6 +45,8 @@ const TopicPage = () => {
         },
       });
       setState(initialState);
+      fileInput.current.value = "";
+      setFileCount(null);
       await getTopic();
       messagesDivRef.current.scrollTo(0, 0);
     } catch (error) {
@@ -53,7 +56,13 @@ const TopicPage = () => {
 
   return (
     <div className="topicPage">
-      <input type="file" style={{ display: "none" }} ref={fileInput} multiple />
+      <input
+        type="file"
+        style={{ display: "none" }}
+        ref={fileInput}
+        multiple
+        onChange={(e) => setFileCount(e.target.files.length)}
+      />
       <Topic data={topic} hasButtons />
       <div className="messages" ref={messagesDivRef}>
         {topic.messages
@@ -88,6 +97,9 @@ const TopicPage = () => {
           >
             Images
           </button>
+          {fileCount > 0 && (
+            <p className="file__count">{fileCount} fichier(s)</p>
+          )}
           <button
             className="return__button button__style"
             onClick={() => {

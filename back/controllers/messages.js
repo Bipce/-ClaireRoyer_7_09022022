@@ -78,9 +78,8 @@ exports.deletMessage = async (req, res) => {
   });
 
   if (!message) throw new HttpError("Message not found !", 404);
-  console.log(req.user.id, message.user.id);
 
-  if (req.user.id !== message.user.id || req.user.isAdmin)
+  if (req.user.id !== message.user.id && req.user.isAdmin !== 1)
     throw new HttpError("Your are not allowed !", 403);
 
   await entityManager.delete(Message, message);

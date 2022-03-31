@@ -70,12 +70,13 @@ exports.deleteTopic = async (req, res) => {
 
   if (!topic) throw new HttpError("Not found !", 404);
 
-  if (req.user.id !== topic.user.id)
+  if (req.user.id !== topic.user.id && req.user.isAdmin !== 1)
     throw new HttpError("You are not allowed !", 403);
 
   for (const message of topic.messages) {
     await entityManager.delete(Message, message.id);
   }
+
   await entityManager.delete(Topic, topic.id);
   res.status(200).json(topic);
 };
@@ -86,6 +87,7 @@ exports.getTopic = async (req, res) => {
   const topic = await entityManager.findOne(Topic, req.params.id, {
     relations: ["user", "messages", "messages.user"],
   });
+
   if (!topic) throw new HttpError("Topic not found!", 404);
   res.status(201).json(topic);
 };

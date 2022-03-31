@@ -53,5 +53,7 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.meRequest = async (req, res) => {
-  res.status(200).json({ username: req.user.username });
+  res
+    .status(200)
+    .json({ username: req.user.username, isAdmin: req.user.isAdmin });
 };

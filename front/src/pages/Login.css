@@ -1,4 +1,9 @@
 .login__button {
   font-size: 1rem;
   padding: 0.5rem;
+  width: 8rem;
+}
+
+.login__form {
+  align-items: center;
 }

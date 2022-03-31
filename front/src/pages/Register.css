@@ -3,3 +3,7 @@
   width: 8rem;
   padding: 0.5rem;
 }
+
+.register__form {
+  align-items: center;
+}

@@ -1,9 +1,11 @@
 import "./Message.css";
 import "../styles/buttons.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../contexts/User";
 
 const Message = (props) => {
   const { user, content, created, imagesUrl } = props.data;
+  const { user: userData } = useContext(UserContext);
 
   const [createdDate, setCreatedDate] = useState();
 
@@ -36,7 +38,6 @@ const Message = (props) => {
             ))}
       </div>
       <div className="message__button">
-        <button className="message__button--mod button__style">Modifier</button>
         <button className="message__button--del button__style">
           Supprimer
         </button>

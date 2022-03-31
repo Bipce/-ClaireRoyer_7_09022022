@@ -10,6 +10,7 @@ const TopicPage = () => {
   const [state, handleChange, setState] = useForm(initialState);
   const topicsDivRef = useRef();
   const fileInput = useRef();
+  const [fileCount, setFileCount] = useState(0);
 
   const getTopics = async () => {
     const response = await axios.get("http://localhost:3001/api/topics");
@@ -22,7 +23,9 @@ const TopicPage = () => {
     })();
   }, []);
 
-  const createTopic = async () => {
+  const createTopic = async (e) => {
+    e.preventDefault();
+
     try {
       const formData = new FormData();
       formData.append("title", state.title);
@@ -36,6 +39,8 @@ const TopicPage = () => {
         },
       });
       setState(initialState);
+      fileInput.current.value = "";
+      setFileCount(0);
       await getTopics();
       topicsDivRef.current.scrollTo(0, 0);
     } catch (error) {
@@ -45,7 +50,13 @@ const TopicPage = () => {
 
   return (
     <div className="container">
-      <input type="file" style={{ display: "none" }} ref={fileInput} multiple />
+      <input
+        type="file"
+        style={{ display: "none" }}
+        ref={fileInput}
+        multiple
+        onChange={(e) => setFileCount(e.target.files.length)}
+      />
       {topics.length > 0 && (
         <div className="topics" ref={topicsDivRef}>
           {topics.map((topic) => (
@@ -54,7 +65,7 @@ const TopicPage = () => {
         </div>
       )}
       <div className="textAreaContainer">
-        <form>
+        <form onSubmit={createTopic}>
           <input
             className="topic__title--input"
             onChange={handleChange}
@@ -73,21 +84,21 @@ const TopicPage = () => {
             autoFocus
           />
           <div className="button__topics">
-            <button
-              className="button__style topic__button"
-              type="submit"
-              onClick={createTopic}
-            >
+            <button className="button__style topic__button" type="submit">
               Créer un topic
             </button>
-            <button
-              className="button__style images__button"
-              onClick={() => {
-                fileInput.current.click();
-              }}
-            >
-              Images
-            </button>
+            <div className="file__count">
+              <button
+                className="button__style images__button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  fileInput.current.click();
+                }}
+              >
+                Images
+              </button>
+              {fileCount > 0 && <p>{fileCount} fichier(s)</p>}
+            </div>
           </div>
         </form>
       </div>
