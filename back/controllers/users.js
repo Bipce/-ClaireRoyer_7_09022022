@@ -1,8 +1,11 @@
 const { getManager } = require("typeorm");
+
 const Topic = require("../models/topics");
+const User = require("../models/users");
 const Message = require("../models/messages");
 
-const User = require("../models/users");
+const deleteMessageWithImages = require("../utils/delete-message");
+const deleteTopicWithImages = require("../utils/delete-topic");
 const HttpError = require("../utils/http-error");
 
 exports.getUsers = async (req, res) => {
@@ -38,12 +41,24 @@ exports.deleteUser = async (req, res) => {
   const entityManager = getManager();
 
   if (req.query.recursive === "true") {
-    for (const message of req.user.messages) {
-      await entityManager.delete(Message, message.id);
+    for (const topic of req.user.topics) {
+      if (!topic.messages) continue;
+
+      for (const message of topic.messages) {
+        await deleteMessageWithImages(message);
+      }
     }
 
-    for (const topics of req.user.topics) {
-      await entityManager.delete(Topic, topics.id);
+    req.user = await entityManager.findOne(User, req.user.id, {
+      relations: ["topics", "messages", "topics.messages"],
+    });
+
+    for (const topic of req.user.topics) {
+      await deleteTopicWithImages(topic);
+    }
+
+    for (const message of req.user.messages) {
+      await deleteMessageWithImages(message);
     }
   }
 
@@ -53,11 +68,9 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.meRequest = async (req, res) => {
-  res
-    .status(200)
-    .json({
-      username: req.user.username,
-      isAdmin: req.user.isAdmin,
-      id: req.user.id,
-    });
+  res.status(200).json({
+    username: req.user.username,
+    isAdmin: req.user.isAdmin,
+    id: req.user.id,
+  });
 };

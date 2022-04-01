@@ -13,7 +13,9 @@ const TopicPage = () => {
   const [fileCount, setFileCount] = useState(0);
 
   const getTopics = async () => {
-    const response = await axios.get("http://localhost:3001/api/topics");
+    const response = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/topics`
+    );
     setTopics(response.data.sort((t1, t2) => t1.created < t2.created));
   };
 
@@ -31,7 +33,7 @@ const TopicPage = () => {
       for (const file of fileInput.current.files) {
         formData.append("image", file);
       }
-      await axios.post("http://localhost:3001/api/topics", formData, {
+      await axios.post(`${process.env.REACT_APP_SERVER}/api/topics`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

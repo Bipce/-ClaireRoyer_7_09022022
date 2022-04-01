@@ -15,7 +15,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/signup",
+        `${process.env.REACT_APP_SERVER}/api/auth/signup`,
         state
       );
       login(response.data.token, response.data.user);

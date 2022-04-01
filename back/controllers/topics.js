@@ -2,7 +2,8 @@ const { getManager } = require("typeorm");
 const HttpError = require("../utils/http-error");
 
 const Topic = require("../models/topics");
-const Message = require("../models/messages");
+const deleteMessageWithImages = require("../utils/delete-message");
+const fs = require("fs").promises;
 
 exports.createTopic = async (req, res) => {
   const { title, content } = req.body;
@@ -74,7 +75,14 @@ exports.deleteTopic = async (req, res) => {
     throw new HttpError("You are not allowed !", 403);
 
   for (const message of topic.messages) {
-    await entityManager.delete(Message, message.id);
+    deleteMessageWithImages(message);
+  }
+
+  if (topic.imagesUrl) {
+    const images = topic.imagesUrl.split("|");
+    for (const image of images) {
+      await fs.unlink(`./images/${image}`);
+    }
   }
 
   await entityManager.delete(Topic, topic.id);

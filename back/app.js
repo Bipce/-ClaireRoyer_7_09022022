@@ -7,7 +7,6 @@ const express = require("express");
 const User = require("./models/users");
 const Topic = require("./models/topics");
 const Message = require("./models/messages");
-const cors = require("cors");
 
 const app = express();
 require("./routes/main")(app);
@@ -26,7 +25,7 @@ require("./routes/main")(app);
     });
     if (createConnection) console.log("Connect to database");
 
-    const PORT = process.env.PORT || 3001;
+    const PORT = process.env.PORT || 5000;
     await app.listen(PORT);
     console.log(`Server listening on ${PORT}`);
   } catch (error) {

@@ -20,7 +20,9 @@ const TopicPage = () => {
   const fileInput = useRef();
 
   const getTopic = async () => {
-    const response = await axios.get(`http://localhost:3001/api/topics/${id}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_SERVER}/api/topics/${id}`
+    );
     setTopic(response.data);
   };
 
@@ -39,11 +41,15 @@ const TopicPage = () => {
         formData.append("image", file);
       }
 
-      await axios.post("http://localhost:3001/api/messages", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        `${process.env.REACT_APP_SERVER}/api/messages`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setState(initialState);
       fileInput.current.value = "";
       setFileCount(null);

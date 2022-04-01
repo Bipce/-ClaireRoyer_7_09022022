@@ -7,7 +7,9 @@ const UserPage = () => {
 
   const deleteUser = async () => {
     try {
-      await axios.delete("http://localhost:3001/api/users?recursive=true");
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER}/api/users?recursive=true`
+      );
       logout();
     } catch (error) {
       console.log(error);

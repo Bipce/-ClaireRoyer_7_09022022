@@ -30,7 +30,7 @@ export const UserProvider = ({ children }) => {
       if (token) {
         try {
           const response = await axios.get(
-            "http://localhost:3001/api/users/me",
+            `${process.env.REACT_APP_SERVER}/api/users/me`,
             {
               headers: {
                 [tokenHeaderKey]: `Bearer ${token}`,

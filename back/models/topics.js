@@ -39,6 +39,8 @@ module.exports = new EntitySchema({
       target: "Message",
       type: "one-to-many",
       inverseSide: "topic",
+      cascade: true,
+      onDelete: "cascade",
     },
   },
 });

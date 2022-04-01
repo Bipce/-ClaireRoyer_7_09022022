@@ -3,6 +3,7 @@ const HttpError = require("../utils/http-error");
 
 const Message = require("../models/messages");
 const Topic = require("../models/topics");
+const deleteMessageWithImages = require("../utils/delete-message");
 
 exports.createMessage = async (req, res) => {
   const { content, topicId } = req.body;
@@ -70,7 +71,7 @@ exports.modifyMessage = async (req, res) => {
   }
 };
 
-exports.deletMessage = async (req, res) => {
+exports.deleteMessage = async (req, res) => {
   const entityManager = getManager();
 
   const message = await entityManager.findOne(Message, req.params.id, {
@@ -82,7 +83,7 @@ exports.deletMessage = async (req, res) => {
   if (req.user.id !== message.user.id && req.user.isAdmin !== 1)
     throw new HttpError("Your are not allowed !", 403);
 
-  await entityManager.delete(Message, message);
+  await deleteMessageWithImages(message);
   res.status(200).json(message);
 };
 

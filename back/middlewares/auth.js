@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
     const entityManager = getManager();
 
     const user = await entityManager.findOne(User, decodedToken.userId, {
-      relations: ["topics", "messages"],
+      relations: ["topics", "messages", "topics.messages"],
     });
     if (!user) throw new HttpError("You are not allowed !", 403);
     req.user = user;
