@@ -10,9 +10,11 @@ import useForm from "../hooks/useForm";
 const TopicPage = () => {
   const { id } = useParams();
   const initialState = { content: "" };
+
   const [state, handleChange, setState] = useForm(initialState);
   const [topic, setTopic] = useState();
   const [fileCount, setFileCount] = useState();
+
   const messagesDivRef = useRef();
   const history = useHistory();
   const fileInput = useRef();
@@ -23,9 +25,7 @@ const TopicPage = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      await getTopic();
-    })();
+    getTopic();
   }, []);
 
   if (!topic) return null;
@@ -63,12 +63,12 @@ const TopicPage = () => {
         multiple
         onChange={(e) => setFileCount(e.target.files.length)}
       />
-      <Topic data={topic} hasButtons />
+      <Topic data={topic} />
       <div className="messages" ref={messagesDivRef}>
         {topic.messages
           .sort((m1, m2) => m1.created < m2.created)
           .map((message) => (
-            <Message key={message.id} data={message} />
+            <Message key={message.id} data={message} getTopic={getTopic} />
           ))}
       </div>
       <div className="textAreaContainer">

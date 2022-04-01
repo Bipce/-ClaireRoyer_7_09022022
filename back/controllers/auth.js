@@ -47,6 +47,6 @@ exports.login = async (req, res) => {
     userId: user._id,
     isAdmin: user.isAdmin,
     token: jwt.sign({ userId: user.id }, process.env.JWT_SECRET, options),
-    user: { username: user.username },
+    user: { username: user.username, isAdmin: user.isAdmin, id: user.id },
   });
 };

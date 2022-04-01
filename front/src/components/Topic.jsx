@@ -1,13 +1,25 @@
 import "./Topic.css";
 import "../styles/buttons.css";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../contexts/User";
+import axios from "axios";
 
 const Topic = (props) => {
   const { id, user, title, content, created, imagesUrl } = props.data;
-  const { hasButtons } = props;
+  const { user: userData } = useContext(UserContext);
+  const { getTopics, hasDeleteButton } = props;
 
   const [createdDate, setCreatedDate] = useState();
+
+  const deleteTopic = async () => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_SERVER}/api/topics/${id}`);
+      await getTopics();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const timestamp = parseInt(created);
@@ -29,10 +41,7 @@ const Topic = (props) => {
         </div>
         <div className="topic__title-content margin0_4">
           <h1 className="topic__title capitalize">{title}</h1>
-          <div
-            style={{ paddingBottom: !hasButtons ? "1rem" : "0" }}
-            className="topic__content"
-          >
+          <div className="topic__content">
             {content}
             <div className="images">
               {imagesUrl &&
@@ -49,10 +58,11 @@ const Topic = (props) => {
           </div>
         </div>
       </Link>
-      {hasButtons && (
+      {(userData.isAdmin === 1 || userData.id === user.id) && hasDeleteButton && (
         <div className="button">
-          <button className="button__del button__style">Supprimer</button>
-          <button className="button__mod button__style">Modifier</button>
+          <button className="button__del button__style" onClick={deleteTopic}>
+            Supprimer
+          </button>
         </div>
       )}
     </div>

@@ -2,12 +2,23 @@ import "./Message.css";
 import "../styles/buttons.css";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/User";
+import axios from "axios";
 
 const Message = (props) => {
-  const { user, content, created, imagesUrl } = props.data;
+  const { user, content, created, imagesUrl, id } = props.data;
   const { user: userData } = useContext(UserContext);
+  const { getTopic } = props;
 
   const [createdDate, setCreatedDate] = useState();
+
+  const deleteMessage = async () => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_SERVER}/api/messages/${id}`);
+      await getTopic();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const timestamp = parseInt(created);
@@ -37,11 +48,16 @@ const Message = (props) => {
               />
             ))}
       </div>
-      <div className="message__button">
-        <button className="message__button--del button__style">
-          Supprimer
-        </button>
-      </div>
+      {(userData.isAdmin === 1 || userData.id === user.id) && (
+        <div className="message__button">
+          <button
+            className="message__button--del button__style"
+            onClick={deleteMessage}
+          >
+            Supprimer
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -18,9 +18,7 @@ const TopicPage = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      await getTopics();
-    })();
+    getTopics();
   }, []);
 
   const createTopic = async (e) => {
@@ -60,7 +58,12 @@ const TopicPage = () => {
       {topics.length > 0 && (
         <div className="topics" ref={topicsDivRef}>
           {topics.map((topic) => (
-            <Topic key={topic.id} data={topic} />
+            <Topic
+              key={topic.id}
+              data={topic}
+              getTopics={getTopics}
+              hasDeleteButton
+            />
           ))}
         </div>
       )}
