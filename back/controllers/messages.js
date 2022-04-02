@@ -39,38 +39,6 @@ exports.createMessage = async (req, res) => {
   }
 };
 
-exports.modifyMessage = async (req, res) => {
-  const entityManager = getManager();
-
-  if (
-    req.body.id ||
-    req.body.createMessage ||
-    req.body.updated ||
-    req.body.userId
-  )
-    throw new HttpError("You are not allowed !", 403);
-
-  const message = await entityManager.findOne(Message, req.params.id, {
-    relations: ["user"],
-  });
-
-  if (!message) throw new HttpError("Message not found", 404);
-
-  if (!message.user || req.user.id !== message.user.id)
-    throw new HttpError("You are not allowed !", 403);
-
-  try {
-    const updatedMessage = await entityManager.update(
-      Message,
-      { id: message.id },
-      { ...req.body, updated: Date.now() }
-    );
-    res.status(200).json(updatedMessage);
-  } catch (error) {
-    throw new HttpError(error, 400);
-  }
-};
-
 exports.deleteMessage = async (req, res) => {
   const entityManager = getManager();
 
@@ -83,28 +51,8 @@ exports.deleteMessage = async (req, res) => {
   if (req.user.id !== message.user.id && req.user.isAdmin !== 1)
     throw new HttpError("Your are not allowed !", 403);
 
+  delete message.user.password;
+
   await deleteMessageWithImages(message);
-  res.status(200).json(message);
-};
-
-exports.getMessages = async (req, res) => {
-  const entityManager = getManager();
-
-  const messages = await entityManager.find(Message, {
-    relations: ["user", "topic"],
-  });
-
-  if (!messages) throw new HttpError("Message not found !", 404);
-  res.status(200).json(messages);
-};
-
-exports.getMessage = async (req, res) => {
-  const entityManager = getManager();
-
-  const message = await entityManager.findOne(Message, req.params.id, {
-    relations: ["user", "topic"],
-  });
-
-  if (!message) throw new HttpError("Message not found !", 404);
   res.status(200).json(message);
 };

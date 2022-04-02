@@ -35,33 +35,6 @@ exports.createTopic = async (req, res) => {
   }
 };
 
-exports.modifyTopic = async (req, res) => {
-  const entityManager = getManager();
-
-  if (req.body.id || req.body.created || req.body.updated || req.body.userId)
-    throw new HttpError("You are not allowed !", 403);
-
-  const topic = await entityManager.findOne(Topic, req.params.id, {
-    relations: ["user"],
-  });
-
-  if (!topic) throw new HttpError("Not found !", 404);
-
-  if (!topic.user || req.user.id !== topic.user.id)
-    throw new HttpError("You are not allowed !", 403);
-
-  try {
-    const updatedTopic = await entityManager.update(
-      Topic,
-      { id: topic.id },
-      { ...req.body, updated: Date.now() }
-    );
-    res.status(200).json(updatedTopic);
-  } catch (error) {
-    throw new HttpError(error, 400);
-  }
-};
-
 exports.deleteTopic = async (req, res) => {
   const entityManager = getManager();
 
@@ -84,6 +57,8 @@ exports.deleteTopic = async (req, res) => {
       await fs.unlink(`./images/${image}`);
     }
   }
+
+  delete topic.user.password;
 
   await entityManager.delete(Topic, topic.id);
   res.status(200).json(topic);
@@ -112,6 +87,10 @@ exports.getTopics = async (req, res) => {
   const topics = await entityManager.find(Topic, {
     relations: ["user"],
   });
+
+  for (const topic of topics) {
+    delete topic.user.password;
+  }
 
   if (!topics) throw new HttpError("Topic not found!", 404);
   res.status(200).json(topics);

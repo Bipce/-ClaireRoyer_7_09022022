@@ -1,12 +1,9 @@
 const { getManager } = require("typeorm");
 
-const Topic = require("../models/topics");
 const User = require("../models/users");
-const Message = require("../models/messages");
 
 const deleteMessageWithImages = require("../utils/delete-message");
 const deleteTopicWithImages = require("../utils/delete-topic");
-const HttpError = require("../utils/http-error");
 
 exports.getUsers = async (req, res) => {
   const entityManager = getManager();
@@ -14,27 +11,12 @@ exports.getUsers = async (req, res) => {
   const users = await entityManager.find(User, {
     relations: ["topics"],
   });
-  await res.status(200).json(users);
-};
 
-exports.modifyUser = async (req, res) => {
-  const entityManager = getManager();
-
-  if (req.body.id) throw new HttpError("You are not allowed !", 403);
-
-  const user = await entityManager.findOne(User, req.params.id);
-  if (!user) throw new HttpError("User not found !", 404);
-
-  try {
-    const updatedUser = await entityManager.update(
-      User,
-      { id: user.id },
-      { ...req.body }
-    );
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    throw new HttpError(error, 400);
+  for (const user of users) {
+    delete user.password;
   }
+
+  await res.status(200).json(users);
 };
 
 exports.deleteUser = async (req, res) => {
