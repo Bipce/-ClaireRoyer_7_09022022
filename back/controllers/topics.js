@@ -96,6 +96,12 @@ exports.getTopic = async (req, res) => {
     relations: ["user", "messages", "messages.user"],
   });
 
+  delete topic.user.password;
+
+  for (const message of topic.messages) {
+    delete message.user.password;
+  }
+
   if (!topic) throw new HttpError("Topic not found!", 404);
   res.status(201).json(topic);
 };
